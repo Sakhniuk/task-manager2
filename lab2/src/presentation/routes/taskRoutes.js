@@ -4,9 +4,9 @@ module.exports = (taskController, auth) => {
 
   const router = express.Router();
 
-  router.post('/tasks', auth, taskController.create);
+  router.post('/tasks', taskController.create);
 
-  router.get('/tasks', auth, taskController.getAll);
+  router.get('/tasks', taskController.getAll);
 
   return router;
 

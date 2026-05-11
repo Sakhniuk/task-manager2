@@ -7,6 +7,7 @@ describe('Task API', () => {
 
     const res = await request(app)
       .post('/tasks')
+      .set('Authorization', 'Bearer test')
       .send({
         title: 'Test',
         deadline: '2030-01-01'
