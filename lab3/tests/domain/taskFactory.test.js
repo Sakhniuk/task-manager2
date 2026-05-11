@@ -1,4 +1,5 @@
-const TaskFactory = require('../../src/domain/factories/TaskFactory');
+const TaskFactory =
+require('../../src/domain/factories/TaskFactory');
 
 describe('TaskFactory', () => {
 
@@ -6,10 +7,10 @@ describe('TaskFactory', () => {
 
     expect(() => {
 
-      TaskFactory.create({
-        title: '',
-        deadline: '2030-01-01'
-      });
+      TaskFactory.create(
+        '',
+        '2030-01-01'
+      );
 
     }).toThrow();
 
