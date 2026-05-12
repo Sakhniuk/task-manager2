@@ -3,9 +3,16 @@ require('../../domain/factories/TaskFactory');
 
 class CreateTaskHandler {
 
-  constructor(taskRepository) {
+  constructor(
+    taskRepository,
+    notificationService
+  ) {
 
-    this.taskRepository = taskRepository;
+    this.taskRepository =
+      taskRepository;
+
+    this.notificationService =
+      notificationService;
 
   }
 
@@ -17,7 +24,14 @@ class CreateTaskHandler {
         command.deadline
       );
 
-    return this.taskRepository.save(task);
+    const createdTask =
+      this.taskRepository.save(task);
+
+    this.notificationService.send(
+      createdTask
+    );
+
+    return createdTask;
 
   }
 
