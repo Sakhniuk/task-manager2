@@ -7,7 +7,7 @@ class InMemoryTaskRepository {
 
   }
 
-  create(task) {
+  save(task) {
 
     task.id = this.id++;
 
@@ -25,10 +25,13 @@ class InMemoryTaskRepository {
 
   findById(id) {
 
-    return this.tasks.find(t => t.id == id);
+    return this.tasks.find(
+      t => t.id == id
+    );
 
   }
 
 }
 
-module.exports = InMemoryTaskRepository;
+module.exports =
+InMemoryTaskRepository;

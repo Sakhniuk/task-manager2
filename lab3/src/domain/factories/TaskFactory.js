@@ -1,22 +1,40 @@
-const Task = require('../entities/Task');
-const DomainError = require('../errors/DomainError');
+const Task =
+require('../entities/Task');
+
+const DomainError =
+require('../errors/DomainError');
 
 class TaskFactory {
 
-  static create({ id, title, deadline }) {
+  static create(title, deadline) {
 
     if (!title) {
-      throw new DomainError('Title required');
+
+      throw new DomainError(
+        'Title required'
+      );
+
     }
 
-    if (deadline && new Date(deadline) < new Date()) {
-      throw new DomainError('Deadline in past');
+    if (
+      deadline &&
+      new Date(deadline) < new Date()
+    ) {
+
+      throw new DomainError(
+        'Deadline in past'
+      );
+
     }
 
-    return new Task(id, title, deadline);
+    return new Task(
+      null,
+      title,
+      deadline
+    );
 
   }
 
 }
 
-module.exports = TaskFactory;
+module.exports = TaskFactory; 

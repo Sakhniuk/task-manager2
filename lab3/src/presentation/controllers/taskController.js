@@ -1,3 +1,6 @@
+const DomainError =
+require('../../domain/errors/DomainError');
+
 const CreateTaskCommand =
 require('../../application/commands/CreateTaskCommand');
 
@@ -19,7 +22,7 @@ class TaskController {
 
   }
 
-  create(req, res) {
+  create = (req, res) => {
 
     try {
 
@@ -34,17 +37,25 @@ class TaskController {
 
       res.status(201).json(task);
 
-    } catch (error) {
+    } catch (e) {
 
-      res.status(400).json({
-        error: error.message
+      if (e instanceof DomainError) {
+
+        return res.status(400).json({
+          error: e.message
+        });
+
+      }
+
+      res.status(500).json({
+        error: 'Server error'
       });
 
     }
 
-  }
+  };
 
-  getAll(req, res) {
+  getAll = (req, res) => {
 
     const query =
       new GetTasksQuery();
@@ -54,7 +65,7 @@ class TaskController {
 
     res.json(tasks);
 
-  }
+  };
 
 }
 
