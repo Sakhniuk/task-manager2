@@ -1,33 +1,39 @@
 const express = require('express');
 
-const auth = require('./middleware/auth');
+const TaskController =
+require('./presentation/controllers/taskController');
 
-const InMemoryTaskRepository = require('./infrastructure/repositories/InMemoryTaskRepository');
+const CreateTaskHandler =
+require('./application/command-handlers/CreateTaskHandler');
 
-const CreateTask = require('./application/use-cases/CreateTask');
-const GetTasks = require('./application/use-cases/GetTasks');
+const GetTasksHandler =
+require('./application/query-handlers/GetTasksHandler');
 
-const TaskController = require('./presentation/controllers/taskController');
+const InMemoryTaskRepository =
+require('./infrastructure/repositories/InMemoryTaskRepository');
 
-const taskRepository = new InMemoryTaskRepository();
-
-const createTask = new CreateTask(taskRepository);
-const getTasks = new GetTasks(taskRepository);
-
-const taskController = new TaskController(
-  createTask,
-  getTasks
-);
-
-const taskRoutes = require('./presentation/routes/taskRoutes')(
-  taskController,
-  auth
-);
+const routes =
+require('./presentation/routes/taskRoutes');
 
 const app = express();
 
 app.use(express.json());
 
-app.use(taskRoutes);
+const repository =
+new InMemoryTaskRepository();
+
+const createTaskHandler =
+new CreateTaskHandler(repository);
+
+const getTasksHandler =
+new GetTasksHandler(repository);
+
+const taskController =
+new TaskController(
+  createTaskHandler,
+  getTasksHandler
+);
+
+app.use(routes(taskController));
 
 module.exports = app;
