@@ -1,47 +1,60 @@
-const DomainError = require('../../domain/errors/DomainError');
+const CreateTaskCommand =
+require('../../application/commands/CreateTaskCommand');
+
+const GetTasksQuery =
+require('../../application/queries/GetTasksQuery');
 
 class TaskController {
 
-  constructor(createTask, getTasks) {
+  constructor(
+    createTaskHandler,
+    getTasksHandler
+  ) {
 
-    this.createTask = createTask;
-    this.getTasks = getTasks;
+    this.createTaskHandler =
+      createTaskHandler;
+
+    this.getTasksHandler =
+      getTasksHandler;
 
   }
 
-  create = (req, res) => {
+  create(req, res) {
 
     try {
 
-      const task = this.createTask.execute(req.body);
+      const command =
+        new CreateTaskCommand(
+          req.body.title,
+          req.body.deadline
+        );
+
+      const task =
+        this.createTaskHandler.execute(command);
 
       res.status(201).json(task);
 
-    } catch (e) {
+    } catch (error) {
 
-      if (e instanceof DomainError) {
-
-        return res.status(400).json({
-          error: e.message
-        });
-
-      }
-
-      res.status(500).json({
-        error: 'Server error'
+      res.status(400).json({
+        error: error.message
       });
 
     }
 
-  };
+  }
 
-  getAll = (req, res) => {
+  getAll(req, res) {
 
-    const tasks = this.getTasks.execute();
+    const query =
+      new GetTasksQuery();
+
+    const tasks =
+      this.getTasksHandler.execute(query);
 
     res.json(tasks);
 
-  };
+  }
 
 }
 
