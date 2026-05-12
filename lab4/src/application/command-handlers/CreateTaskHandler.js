@@ -1,18 +1,21 @@
 const TaskFactory =
 require('../../domain/factories/TaskFactory');
 
+const TaskCreatedEvent =
+require('../../events/TaskCreatedEvent');
+
 class CreateTaskHandler {
 
   constructor(
     taskRepository,
-    notificationService
+    eventBus
   ) {
 
     this.taskRepository =
       taskRepository;
 
-    this.notificationService =
-      notificationService;
+    this.eventBus =
+      eventBus;
 
   }
 
@@ -27,8 +30,9 @@ class CreateTaskHandler {
     const createdTask =
       this.taskRepository.save(task);
 
-    this.notificationService.send(
-      createdTask
+    this.eventBus.publish(
+      'TaskCreated',
+      new TaskCreatedEvent(createdTask)
     );
 
     return createdTask;
