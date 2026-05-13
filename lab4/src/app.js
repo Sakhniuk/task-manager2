@@ -15,6 +15,12 @@ require('./infrastructure/repositories/InMemoryTaskRepository');
 const routes =
 require('./presentation/routes/taskRoutes');
 
+const EventBus =
+require('./event-bus/EventBus');
+
+const TaskCreatedListener =
+require('./notifications/TaskCreatedListener');
+
 const app = express();
 
 app.use(express.json());
@@ -22,8 +28,22 @@ app.use(express.json());
 const repository =
 new InMemoryTaskRepository();
 
+const eventBus =
+new EventBus();
+
+const listener =
+new TaskCreatedListener();
+
+eventBus.subscribe(
+  'TaskCreated',
+  event => listener.handle(event)
+);
+
 const createTaskHandler =
-new CreateTaskHandler(repository);
+new CreateTaskHandler(
+  repository,
+  eventBus
+);
 
 const getTasksHandler =
 new GetTasksHandler(repository);
