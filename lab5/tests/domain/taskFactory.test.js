@@ -1,5 +1,5 @@
 const TaskFactory =
-require('../../src/domain/factories/TaskFactory');
+require('../../src/modules/core/domain/factories/TaskFactory');
 
 describe('TaskFactory', () => {
 

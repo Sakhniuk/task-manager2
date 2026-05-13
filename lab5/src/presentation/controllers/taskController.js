@@ -1,11 +1,11 @@
 const DomainError =
-require('../../domain/errors/DomainError');
+require('../../modules/core/domain/errors/DomainError');
 
 const CreateTaskCommand =
-require('../../application/commands/CreateTaskCommand');
+require('../../modules/core/application/commands/CreateTaskCommand');
 
 const GetTasksQuery =
-require('../../application/queries/GetTasksQuery');
+require('../../modules/core/application/queries/GetTasksQuery');
 
 class TaskController {
 
