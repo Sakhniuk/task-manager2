@@ -1,5 +1,5 @@
 const CreateTaskCommand =
-require('../../src/application/commands/CreateTaskCommand');
+require('../../src/modules/core/application/commands/CreateTaskCommand');
 
 describe('CreateTaskCommand', () => {
 

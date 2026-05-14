@@ -4,22 +4,25 @@ const TaskController =
 require('./presentation/controllers/taskController');
 
 const CreateTaskHandler =
-require('./application/command-handlers/CreateTaskHandler');
+require('./modules/core/application/command-handlers/CreateTaskHandler');
 
 const GetTasksHandler =
-require('./application/query-handlers/GetTasksHandler');
+require('./modules/core/application/query-handlers/GetTasksHandler');
 
 const InMemoryTaskRepository =
-require('./infrastructure/repositories/InMemoryTaskRepository');
+require('./modules/core/infrastructure/repositories/InMemoryTaskRepository');
 
 const routes =
 require('./presentation/routes/taskRoutes');
 
 const EventBus =
-require('./event-bus/EventBus');
+require('./modules/core/event-bus/EventBus');
 
 const TaskCreatedListener =
 require('./notifications/TaskCreatedListener');
+
+const TaskAnalyticsListener =
+require('./modules/analytics/application/TaskAnalyticsListener');
 
 const app = express();
 
@@ -37,6 +40,15 @@ new TaskCreatedListener();
 eventBus.subscribe(
   'TaskCreated',
   event => listener.handle(event)
+);
+
+const analyticsListener =
+new TaskAnalyticsListener();
+
+eventBus.subscribe(
+  'TaskCreated',
+  event =>
+    analyticsListener.handle(event)
 );
 
 const createTaskHandler =

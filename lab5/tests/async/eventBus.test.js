@@ -1,5 +1,5 @@
 const EventBus =
-require('../../src/event-bus/EventBus');
+require('../../src/modules/core/event-bus/EventBus');
 
 test(
   'event bus publishes event',

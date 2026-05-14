@@ -1,5 +1,5 @@
 const TaskFactory =
-require('../../modules/core/domain/factories/TaskFactory');
+require('../../domain/factories/TaskFactory');
 
 
 const TaskCreatedEvent =
